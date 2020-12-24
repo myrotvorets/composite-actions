@@ -1,0 +1,68 @@
+name: Generate Docker tags
+description: Generates Docker tags from git reference and commit hash
+inputs:
+  refkind:
+    required: true
+    description: Reference kind
+  refname:
+    required: true
+    description: Reference name
+  commit_hash:
+    required: false
+    description: Commit hash
+    default: ""
+  image_name:
+    required: true
+    description: Image name
+  default_branch:
+    required: false
+    description: Name of the default branch
+    default: master
+outputs:
+  tags:
+    description: Tags
+    value: ${{ steps.action.outputs.tags }}
+  version:
+    description: Version
+    value: ${{ steps.action.outputs.version }}
+runs:
+  using: composite
+  steps:
+    - name: Determine reference kind
+      id: action
+      shell: bash
+      run: |
+        DOCKER_IMAGE="${{ inputs.image_name }}"
+        REFKIND="${{ inputs.refkind }}"
+        REFNAME="${{ inputs.refname }}"
+        HASH="${{ inputs.commit_hash }}"
+
+        if [ "${REFKIND}" = "tag" ]; then
+          VERSION="${REFNAME}"
+        elif [ "${REFKIND}" = "branch" ]; then
+          VERSION="$(echo ${REFNAME} | sed -r 's!/+!-!g')"
+          if [ "${{ inputs.default_branch }}" = "$VERSION" ]; then
+            VERSION=edge
+          fi
+        elif [ "${REFKIND}" = "pr" ]; then
+          VERSION="pr-${REFNAME}"
+        else
+          VERSION=unknown
+        fi
+
+        TAGS="${DOCKER_IMAGE}:${VERSION}"
+
+        if [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          MINOR=${VERSION%.*}
+          MAJOR=${MINOR%.*}
+          TAGS="${TAGS},${DOCKER_IMAGE}:${MINOR},${DOCKER_IMAGE}:${MAJOR},${DOCKER_IMAGE}:latest"
+        elif [ -n "${{ inputs.commit_hash }}" ]; then
+          SHA="${{ inputs.commit_hash }}"
+          TAGS="${TAGS},${DOCKER_IMAGE}:sha-${SHA::8}"
+        fi
+
+        echo ::set-output name=version::${VERSION}
+        echo ::set-output name=tags::${TAGS}
+branding:
+  color: blue
+  icon: activity
