@@ -28,7 +28,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: Determine reference kind
+    - name: Generate Docker tags
       id: action
       shell: bash
       run: |
