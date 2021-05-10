@@ -16,7 +16,7 @@ runs:
   steps:
     - name: Create .env
       shell: bash
-      run: echo "$SECRET_ENVIRONMENT" | base64 -d > ./iac/.env
+      run: echo "${SECRET_ENVIRONMENT}" | base64 -d > ./iac/.env
       env:
         SECRET_ENVIRONMENT: ${{ inputs.secret_environment }}
 
