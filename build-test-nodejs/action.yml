@@ -1,5 +1,5 @@
 name: Build and Test (Node.js)
-description: Adds necessary kustomizations prior to deployment
+description: Builds and tests a Node.js library or application
 inputs:
   node-version:
     required: false
