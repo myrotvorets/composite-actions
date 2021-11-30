@@ -1,0 +1,24 @@
+name: Audit Node.js Packages
+description: Audits Node.js packages with `npm audit`
+runs:
+  using: composite
+  steps:
+    - name: Check out the code
+      uses: actions/checkout@v2.4.0
+
+    - name: Set up Node.js environment
+      uses: actions/setup-node@v2.5.0
+      with:
+        node-version: "lts/*"
+        cache: npm
+
+    - name: Run audit
+      shell: bash
+      run: npm audit --production
+
+    - name: Update npm
+      shell: bash
+      run: npm i -g npm@latest
+branding:
+  color: green
+  icon: shield
