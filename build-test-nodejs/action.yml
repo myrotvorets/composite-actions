@@ -1,0 +1,50 @@
+name: Build and Test (Node.js)
+description: Adds necessary kustomizations prior to deployment
+inputs:
+  node_version:
+    required: false
+    default: "lts/*"
+    description: Node.js version
+  token:
+    required: false
+    default: "${{ github.token }}"
+    description: Authentication token
+  registry_url:
+    required: false
+    default: ""
+    description: Registry URL
+runs:
+  using: composite
+  steps:
+    - name: Check out the code
+      uses: actions/checkout@v2.4.0
+
+    - name: Set up Node.js environment
+      uses: actions/setup-node@v2.5.0
+      with:
+        node-version: ${{ inputs.node_version }}
+        registry-url: ${{ inputs.registry-url }}
+        cache: npm
+
+    - name: Update npm
+      shell: bash
+      run: npm i -g npm@latest
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci --ignore-scripts
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.token }}
+
+    - name: Run postinstall scripts
+      shell: bash
+      run: npm rebuild && npm run prepare --if-present
+
+    - name: Run tests
+      shell: bash
+      run: npm test
+      env:
+        COLLECT_COVERAGE: "0"
+branding:
+  color: blue
+  icon: server
