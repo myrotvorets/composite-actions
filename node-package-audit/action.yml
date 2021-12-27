@@ -10,7 +10,6 @@ runs:
       uses: actions/setup-node@v2.5.0
       with:
         node-version: "lts/*"
-        cache: npm
 
     - name: Run audit
       shell: bash
