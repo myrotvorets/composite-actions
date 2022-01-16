@@ -50,6 +50,7 @@ runs:
       run: npm test
       env:
         COLLECT_COVERAGE: "1"
+        SONARSCANNER: "true"
 
     - name: Retrieve information from package.json
       uses: myrotvorets/info-from-package-json-action@894aa28096ecf21e9ac52ca087b0c7b225590737
