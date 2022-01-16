@@ -1,0 +1,78 @@
+name: SonarScan (Node.js)
+description: Run SonarScanner on a Node.js library or application
+inputs:
+  node-version:
+    required: false
+    default: "lts/*"
+    description: Node.js version
+  token:
+    required: false
+    default: "${{ github.token }}"
+    description: Authentication token
+  sonar-token:
+    required: true
+    description: SonarCloud token
+  registry-url:
+    required: false
+    default: ""
+    description: Registry URL
+runs:
+  using: composite
+  steps:
+    - name: Check out the code
+      uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
+      with:
+        fetch-deps: 0
+
+    - name: Set up Node.js environment
+      uses: actions/setup-node@04c56d2f954f1e4c69436aa54cfef261a018f458
+      with:
+        node-version: ${{ inputs.node-version }}
+        registry-url: ${{ inputs.registry-url }}
+        cache: npm
+
+    - name: Update npm
+      shell: bash
+      run: npm i -g npm@latest
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci --ignore-scripts
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.token }}
+
+    - name: Run postinstall scripts
+      shell: bash
+      run: npm rebuild && npm run prepare --if-present
+
+    - name: Run tests
+      shell: bash
+      run: npm test
+      env:
+        COLLECT_COVERAGE: "1"
+
+    - name: Retrieve information from package.json
+      uses: myrotvorets/info-from-package-json-action@894aa28096ecf21e9ac52ca087b0c7b225590737
+      id: ver
+
+    - name: Fix paths in test-report.xml
+      run: |
+        [ -f test-report.xml ] && sed -i "s@$(pwd)@/github/workspace@g" test-report.xml
+      shell: bash
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@4338a6969defadc39bf5e585b5e642dfc7c24de1
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
+      with:
+        args: >
+          -Dsonar.projectName=${{ steps.ver.outputs.packageName }}
+          -Dsonar.projectVersion=${{ steps.ver.outputs.packageVersion }}
+          -Dsonar.links.homepage=${{ steps.ver.outputs.packageHomepage }}
+          -Dsonar.links.issue=${{ steps.ver.outputs.packageBugsUrl }}
+          -Dsonar.links.scm=${{ steps.ver.outputs.packageScmUrl }}
+
+branding:
+  color: blue
+  icon: server
