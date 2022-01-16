@@ -52,7 +52,7 @@ runs:
         COLLECT_COVERAGE: "1"
 
     - name: Retrieve information from package.json
-      uses: myrotvorets/info-from-package-json-action@894aa28096ecf21e9ac52ca087b0c7b225590737
+      uses: myrotvorets/info-from-package-json-action@2547dd18abd360741cac0afb41266de5a30b274e
       id: ver
 
     - name: Fix paths in test-report.xml
