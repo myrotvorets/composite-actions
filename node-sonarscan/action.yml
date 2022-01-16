@@ -20,12 +20,12 @@ runs:
   using: composite
   steps:
     - name: Check out the code
-      uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
+      uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
       with:
         fetch-deps: 0
 
     - name: Set up Node.js environment
-      uses: actions/setup-node@04c56d2f954f1e4c69436aa54cfef261a018f458
+      uses: actions/setup-node@f099707f6e7a91b89cdebdeca599fc76cc8bf088
       with:
         node-version: ${{ inputs.node-version }}
         registry-url: ${{ inputs.registry-url }}
@@ -53,7 +53,7 @@ runs:
         SONARSCANNER: "true"
 
     - name: Retrieve information from package.json
-      uses: myrotvorets/info-from-package-json-action@894aa28096ecf21e9ac52ca087b0c7b225590737
+      uses: myrotvorets/info-from-package-json-action@2547dd18abd360741cac0afb41266de5a30b274e
       id: ver
 
     - name: Fix paths in test-report.xml
