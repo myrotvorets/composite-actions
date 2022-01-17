@@ -1,0 +1,67 @@
+name: Publish Node.js Package
+description: Publishes a Node.js package to a registry
+inputs:
+  token:
+    required: false
+    default: "${{ github.token }}"
+    description: GitHub authentication token
+  node-auth-token:
+    required: true
+    description: Registry authentication token
+  registry-url:
+    required: false
+    default: "https://registry.npmjs.org/"
+    description: Registry URL
+  commit-sha:
+    required: false
+    default: "${{ github.sha }}"
+    description: SHA of the commit to set the status for
+  artifact-name:
+    required: false
+    default: "package"
+    description: Artifact name (.tgz archive to publish)
+  archive-name:
+    required: false
+    default: "*.tgz"
+    description: Filename of the archive to publish
+runs:
+  using: composite
+  steps:
+    - name: Set commit status to PENDING
+      uses: myrotvorets/set-commit-status-action@74193e5388e956edf6adc408fdf7807286c4e45e
+      with:
+        token: ${{ inputs.token }}
+        status: pending
+        context: Publish to ${{ inputs.registry-url }}
+        sha: ${{ inputs.sha }}
+      if: inputs.sha != ''
+
+    - name: Set up Node.js environment
+      uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
+      with:
+        registry-url: ${{ inputs.registry-url }}
+        node-version: lts/*
+
+    - name: Download tarball
+      uses: actions/download-artifact@f023be2c48cc18debc3bacd34cb396e0295e2869
+      with:
+        name: ${{ inputs.artifact-name }}
+
+    - name: Publish package
+      run: npm publish ${{ inputs.archive-name }}
+      shell: bash
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.node-auth-token }}
+
+    - name: Set final commit status
+      uses: myrotvorets/set-commit-status-action@74193e5388e956edf6adc408fdf7807286c4e45e
+      with:
+        token: ${{ inputs.token }}
+        status: ${{ job.status }}
+        context: Publish to ${{ inputs.registry-url }}
+        sha: ${{ inputs.sha }}
+      if: always() && inputs.sha != ''
+
+branding:
+  color: blue
+  icon: package

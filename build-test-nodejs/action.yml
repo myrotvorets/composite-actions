@@ -13,6 +13,10 @@ inputs:
     required: false
     default: ""
     description: Registry URL
+  run-tests:
+    required: false
+    default: "yes"
+    description: Whether to run tests
 runs:
   using: composite
   steps:
@@ -45,6 +49,7 @@ runs:
       run: npm test
       env:
         COLLECT_COVERAGE: "0"
+      if: ${{ inputs.run-tests == 'yes' }}
 branding:
   color: blue
   icon: server

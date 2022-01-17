@@ -1,0 +1,55 @@
+name: Prepublish Node.js Package
+description: Prepares a Node.js package for publishing
+inputs:
+  node-version:
+    required: false
+    default: "lts/*"
+    description: Node.js version
+  token:
+    required: false
+    default: "${{ github.token }}"
+    description: Authentication token
+  registry-url:
+    required: false
+    default: ""
+    description: Registry URL
+  artifact-name:
+    required: false
+    default: "package"
+    description: Artifact name (.tgz archive to publish)
+  retention-days:
+    required: false
+    default: "1"
+    description: How long to keep the artifact
+outputs:
+  filename:
+    description: Archive filename
+    value: ${{ steps.pack.outputs.filename }}
+
+runs:
+  using: composite
+  steps:
+    - name: Build package
+      uses: myrotvorets/composite-actions/build-test-nodejs@master
+      with:
+        node-version: ${{ inputs.node-version }}
+        registry-url: ${{ inputs.registry-url }}
+        token: ${{ inputs.token }}
+        run-tests: no
+
+    - name: Create tarball
+      id: pack
+      shell: bash
+      run: |
+        echo "::set-output name=filename::$(npm pack 2> /dev/null)"
+
+    - name: Save tarball
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ steps.pack.outputs.filename }}
+        retention-days: ${{ inputs.retention-days }}
+
+branding:
+  color: blue
+  icon: package
