@@ -44,7 +44,7 @@ runs:
         echo "::set-output name=filename::$(npm pack 2> /dev/null)"
 
     - name: Save tarball
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # renovate: tag=v2
       with:
         name: ${{ inputs.artifact-name }}
         path: ${{ steps.pack.outputs.filename }}
