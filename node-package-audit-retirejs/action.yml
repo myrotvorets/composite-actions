@@ -20,7 +20,7 @@ runs:
       uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
 
     - name: Set up Node.js environment
-      uses: actions/setup-node@f099707f6e7a91b89cdebdeca599fc76cc8bf088
+      uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854
       with:
         node-version: ${{ inputs.node-version }}
         registry-url: ${{ inputs.registry-url }}
