@@ -20,7 +20,7 @@ runs:
   using: composite
   steps:
     - name: Check out the code
-      uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
+      uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748
       with:
         fetch-depth: 0
 
