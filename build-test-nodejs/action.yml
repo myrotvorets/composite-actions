@@ -21,7 +21,7 @@ runs:
   using: composite
   steps:
     - name: Check out the code
-      uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
+      uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748
 
     - name: Set up Node.js environment
       uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854
