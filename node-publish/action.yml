@@ -37,7 +37,7 @@ runs:
       if: inputs.sha != ''
 
     - name: Set up Node.js environment
-      uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854
+      uses: actions/setup-node@86bf502a33df3d7ca5daace2b5d63c9877c85c28
       with:
         registry-url: ${{ inputs.registry-url }}
         node-version: lts/*
