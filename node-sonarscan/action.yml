@@ -53,7 +53,7 @@ runs:
         SONARSCANNER: "true"
 
     - name: Retrieve information from package.json
-      uses: myrotvorets/info-from-package-json-action@738089a936fe0eabf19f5d921b4fcacaeddd73c8
+      uses: myrotvorets/info-from-package-json-action@d049dc97f83e4f8ecba42a1d08d0f9c10f28acf0
       id: ver
 
     - name: Fix paths in test-report.xml
