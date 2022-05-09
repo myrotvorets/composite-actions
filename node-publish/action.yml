@@ -28,7 +28,7 @@ runs:
   using: composite
   steps:
     - name: Set commit status to PENDING
-      uses: myrotvorets/set-commit-status-action@e68492050f82fd3b8600ea7defd4b9adb0cadac0
+      uses: myrotvorets/set-commit-status-action@ffd7ee8d43ad073911abf4a07fcad43c01f034a7
       with:
         token: ${{ inputs.token }}
         status: pending
@@ -54,7 +54,7 @@ runs:
         NODE_AUTH_TOKEN: ${{ inputs.node-auth-token }}
 
     - name: Set final commit status
-      uses: myrotvorets/set-commit-status-action@e68492050f82fd3b8600ea7defd4b9adb0cadac0
+      uses: myrotvorets/set-commit-status-action@ffd7ee8d43ad073911abf4a07fcad43c01f034a7
       with:
         token: ${{ inputs.token }}
         status: ${{ job.status }}
