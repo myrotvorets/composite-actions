@@ -33,8 +33,8 @@ runs:
         token: ${{ inputs.token }}
         status: pending
         context: Publish to ${{ inputs.registry-url }}
-        sha: ${{ inputs.sha }}
-      if: inputs.sha != ''
+        sha: ${{ inputs.commit-sha }}
+      if: inputs.commit-sha != ''
 
     - name: Set up Node.js environment
       uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3.3.0
@@ -59,8 +59,8 @@ runs:
         token: ${{ inputs.token }}
         status: ${{ job.status }}
         context: Publish to ${{ inputs.registry-url }}
-        sha: ${{ inputs.sha }}
-      if: always() && inputs.sha != ''
+        sha: ${{ inputs.commit-sha }}
+      if: always() && inputs.commit-sha != ''
 
 branding:
   color: blue
