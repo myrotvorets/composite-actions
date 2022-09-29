@@ -30,6 +30,7 @@ runs:
         node-version: ${{ inputs.node-version }}
         registry-url: ${{ inputs.registry-url }}
         cache: npm
+        token: ${{ inputs.token }}
 
     - name: Update npm
       shell: bash
