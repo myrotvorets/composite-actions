@@ -7,5 +7,6 @@
         "fileMatch": [
             "/action\\.ya?ml$"
         ]
-    }
+    },
+    "dependencyDashboardAutoclose": false
 }
