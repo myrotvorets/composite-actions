@@ -59,7 +59,7 @@ runs:
       shell: bash
 
     - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@v2.0.1
+      uses: SonarSource/sonarcloud-github-action@c25d2e7e3def96d0d1781000d3c429da22cd6252 # v2.0.2
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
         SONAR_TOKEN: ${{ inputs.sonar-token }}
