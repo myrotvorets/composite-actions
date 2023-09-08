@@ -32,10 +32,6 @@ runs:
         cache: npm
         token: ${{ inputs.token }}
 
-    - name: Update npm
-      shell: bash
-      run: npm i -g npm@latest
-
     - name: Install dependencies
       shell: bash
       run: npm ci --ignore-scripts
