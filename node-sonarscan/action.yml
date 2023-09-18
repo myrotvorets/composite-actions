@@ -16,6 +16,10 @@ inputs:
     required: false
     default: ""
     description: Registry URL
+  test-script:
+    required: false
+    default: "test"
+    description: npm script to run tests
 runs:
   using: composite
   steps:
@@ -44,7 +48,7 @@ runs:
 
     - name: Run tests
       shell: bash
-      run: npm test
+      run: npm run ${{ inputs.test-script }}
       env:
         COLLECT_COVERAGE: "1"
         SONARSCANNER: "true"
