@@ -36,16 +36,23 @@ runs:
       run: npm ci --ignore-scripts
       env:
         NODE_AUTH_TOKEN: ${{ inputs.token }}
+        NPM_CONFIG_FUND: '0'
+        NPM_CONFIG_AUDIT: '0'
+        SUPPRESS_SUPPORT: '1'
+        NO_UPDATE_NOTIFIER: 'true'
 
     - name: Run postinstall scripts
       shell: bash
       run: npm rebuild && npm run prepare --if-present
+      env:
+        NO_UPDATE_NOTIFIER: 'true'
 
     - name: Run tests
       shell: bash
       run: npm test
       env:
-        COLLECT_COVERAGE: "0"
+        COLLECT_COVERAGE: '0'
+        NO_UPDATE_NOTIFIER: 'true'
       if: ${{ inputs.run-tests == 'yes' }}
 branding:
   color: blue

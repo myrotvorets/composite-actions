@@ -41,6 +41,10 @@ runs:
       run: npm ci --ignore-scripts
       env:
         NODE_AUTH_TOKEN: ${{ inputs.token }}
+        NPM_CONFIG_FUND: '0'
+        NPM_CONFIG_AUDIT: '0'
+        SUPPRESS_SUPPORT: '1'
+        NO_UPDATE_NOTIFIER: 'true'
 
     - name: Run postinstall scripts
       shell: bash
@@ -50,8 +54,9 @@ runs:
       shell: bash
       run: npm run ${{ inputs.test-script }}
       env:
-        COLLECT_COVERAGE: "1"
-        SONARSCANNER: "true"
+        COLLECT_COVERAGE: '1'
+        SONARSCANNER: 'true'
+        NO_UPDATE_NOTIFIER: 'true'
 
     - name: Retrieve information from package.json
       uses: myrotvorets/info-from-package-json-action@6a4b12839126aa2b858a12d89577fb7c5011e8f9 # 2.0.0
