@@ -61,8 +61,8 @@ runs:
           TAGS="${TAGS},${DOCKER_IMAGE}:sha-${SHA::8}"
         fi
 
-        echo ::set-output name=version::${VERSION}
-        echo ::set-output name=tags::${TAGS}
+        echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+        echo "tags=${TAGS}" >> "${GITHUB_OUTPUT}"
 branding:
   color: blue
   icon: activity

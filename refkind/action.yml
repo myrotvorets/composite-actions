@@ -35,8 +35,8 @@ runs:
           name=""
         fi
 
-        echo "::set-output name=kind::${kind}"
-        echo "::set-output name=name::${name}"
+        echo "kind=${kind}" >> "${GITHUB_OUTPUT}"
+        echo "name=${name}" >> "${GITHUB_OUTPUT}"
 branding:
   color: blue
   icon: activity
