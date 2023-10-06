@@ -1,0 +1,56 @@
+name: Run Script (Node.js)
+description: Runs a script with `npm run`
+inputs:
+  node-version:
+    required: false
+    default: "lts/*"
+    description: Node.js version
+  token:
+    required: false
+    default: "${{ github.token }}"
+    description: Authentication token
+  registry-url:
+    required: false
+    default: ""
+    description: Registry URL
+  script:
+    required: true
+    description: Script to run
+runs:
+  using: composite
+  steps:
+    - name: Check out the code
+      uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+
+    - name: Set up Node.js environment
+      uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+      with:
+        node-version: ${{ inputs.node-version }}
+        registry-url: ${{ inputs.registry-url }}
+        cache: npm
+        token: ${{ inputs.token }}
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci --ignore-scripts
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.token }}
+        NPM_CONFIG_FUND: '0'
+        NPM_CONFIG_AUDIT: '0'
+        SUPPRESS_SUPPORT: '1'
+        NO_UPDATE_NOTIFIER: 'true'
+
+    - name: Run postinstall scripts
+      shell: bash
+      run: npm rebuild && npm run prepare --if-present
+      env:
+        NO_UPDATE_NOTIFIER: 'true'
+
+    - name: Run script
+      shell: bash
+      run: npm run "${{ inputs.script }}"
+      env:
+        NO_UPDATE_NOTIFIER: 'true'
+branding:
+  color: blue
+  icon: server
