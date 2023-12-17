@@ -43,7 +43,7 @@ runs:
         node-version: lts/*
 
     - name: Download tarball
-      uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
+      uses: actions/download-artifact@1bd0606e08fcaa4c28afc1fc7d45830ab5482dac
       with:
         name: ${{ inputs.artifact-name }}
 
