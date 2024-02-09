@@ -65,6 +65,7 @@ runs:
     - name: Fix paths in test-report.xml
       run: |
         [ -f test-report.xml ] && sed -i "s@$(pwd)@/github/workspace@g" test-report.xml || true
+        [ -f .reports/test-report.xml ] && sed -i "s@$(pwd)@/github/workspace@g" .reports/test-report.xml || true
       shell: bash
 
     - name: SonarCloud Scan
