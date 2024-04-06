@@ -41,7 +41,9 @@ runs:
       id: pack
       shell: bash
       run: |
-        filename="$(npm pack)"
+        dir="$(mktemp -d)"
+        npm pack --pack-destination="${dir}/"
+        filename="$(ls ${dir}/*.tgz)"
         echo "filename=${filename}" >> "${GITHUB_OUTPUT}"
 
     - name: Save tarball
