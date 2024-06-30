@@ -7,7 +7,7 @@ runs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
     - name: Set up Node.js environment
-      uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+      uses: actions/setup-node@d6e3b5539ed7e5ccd26c3459e26c7c817f4e9068 # v2.3.1
       with:
         node-version: "lts/*"
 
