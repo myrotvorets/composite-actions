@@ -24,6 +24,10 @@ inputs:
     required: false
     default: "*.tgz"
     description: Filename of the archive to publish
+  dist-tag:
+    required: false
+    default: "latest"
+    description: Distribution tag to use
 runs:
   using: composite
   steps:
@@ -48,7 +52,7 @@ runs:
         name: ${{ inputs.artifact-name }}
 
     - name: Publish package
-      run: npm publish ${{ inputs.archive-name }}
+      run: npm publish ${{ inputs.archive-name }} --tag '${{ inputs.dist-tag }}'
       shell: bash
       env:
         NODE_AUTH_TOKEN: ${{ inputs.node-auth-token }}
