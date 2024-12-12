@@ -51,8 +51,17 @@ runs:
       with:
         name: ${{ inputs.artifact-name }}
 
+    - name: Set dist-tag
+      run: |
+        if [ -z "${{ inputs.dist-tag }}" ]; then
+          echo "dist-tag=latest" >> "${GITHUB_ENV}"
+        else
+          echo "dist-tag=${{ inputs.dist-tag }}" >> "${GITHUB_ENV}"
+        fi
+      shell: bash
+
     - name: Publish package
-      run: npm publish ${{ inputs.archive-name }} --tag '${{ inputs.dist-tag }}'
+      run: npm publish ${{ inputs.archive-name }} --tag '${{ env.dist-tag }}'
       shell: bash
       env:
         NODE_AUTH_TOKEN: ${{ inputs.node-auth-token }}
