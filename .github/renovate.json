@@ -4,8 +4,8 @@
         "local>myrotvorets/.github:renovate-config"
     ],
     "github-actions": {
-        "fileMatch": [
-            "/action\\.ya?ml$"
+        "managerFilePatterns": [
+            "//action\\.ya?ml$/"
         ]
     },
     "dependencyDashboardAutoclose": false
