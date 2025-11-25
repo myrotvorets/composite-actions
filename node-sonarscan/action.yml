@@ -20,11 +20,16 @@ inputs:
     required: false
     default: "test"
     description: npm script to run tests
+  skip-checkout:
+    required: false
+    default: "no"
+    description: Whether to checxk out the source code
 runs:
   using: composite
   steps:
     - name: Check out the code
       uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      if: ${{ inputs.skip-checkout != 'yes' }}
       with:
         fetch-depth: 0
 
