@@ -6,7 +6,7 @@ inputs:
     default: "${{ github.token }}"
     description: GitHub authentication token
   node-auth-token:
-    required: true
+    required: false
     description: Registry authentication token
   registry-url:
     required: false
